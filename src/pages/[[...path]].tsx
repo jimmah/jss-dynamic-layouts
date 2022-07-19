@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import NotFound from 'src/NotFound';
-import Layout from 'src/Layout';
 import {
   SitecoreContext,
   ComponentPropsContext,
@@ -10,6 +9,7 @@ import {
 import { SitecorePageProps } from 'lib/page-props';
 import { sitecorePagePropsFactory } from 'lib/page-props-factory';
 import { componentFactory } from 'temp/componentFactory';
+import LayoutFactory from 'src/LayoutFactory';
 
 const SitecorePage = ({ notFound, componentProps, layoutData }: SitecorePageProps): JSX.Element => {
   useEffect(() => {
@@ -21,6 +21,8 @@ const SitecorePage = ({ notFound, componentProps, layoutData }: SitecorePageProp
     // Shouldn't hit this (as long as 'notFound' is being returned below), but just to be safe
     return <NotFound />;
   }
+
+  const Layout = LayoutFactory.resolveLayout(layoutData.sitecore.route);
 
   return (
     <ComponentPropsContext value={componentProps}>
